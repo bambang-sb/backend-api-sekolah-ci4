@@ -15,7 +15,7 @@ class ThAjaranValidation{
     ],
     'semester' => [
       'required' => 'Semester harus diisi',
-      'in_list'=> 'Semester harus Ganjil(1) Genap(0)'
+      'in_list'=> 'Semester harus angka, Ganjil(1) Genap(0)'
     ]
   ];
 

@@ -1,6 +1,8 @@
 <?php
 namespace App\Controllers\Apis;
 
+use App\Schemas\ValidSchema;
+use App\Schemas\ThajaranSchema;
 use App\Services\ThAjaranService;
 
 class ThAjaran extends ResponseHandle{
@@ -22,24 +24,22 @@ class ThAjaran extends ResponseHandle{
   }
 
   public function create(){
-    $body = $this->request->getJSON(true);//true=>ubah ke array
-    if($body == null){
-      return $this->bodyError();  
-    }
-    $this->service->create($body);
-    // return $this->success('create success',$body);//testing
+    $body = $this->request->getBody();
+    if($body == null)return $this->bodyError();  
+    
+    //cek schema body
+    $validSchema =new ValidSchema($body,ThajaranSchema::$field);
+
+    $this->service->create($validSchema->value);
     
     return $this->created('create success');
   }
 
   public function update($id=null){
-    // if($id==null){
-    //   return $this->errorResponse('ID Th Ajaran Level harus diisi',null,400);
-    // }
+   
     $body = $this->request->getJSON(true);//true=>ubah ke array
-    if($body == null){
-      return $this->bodyError();  
-    }
+    if($body == null) return $this->bodyError();
+    
     $this->service->update($id,$body);
     
     return $this->updated();

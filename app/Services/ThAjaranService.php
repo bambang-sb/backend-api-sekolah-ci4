@@ -48,9 +48,9 @@ class ThAjaranService{
      throw new MyException('Th ajaran sudah ada',409);
     }
 
-    //success return id
+    //success
     $this->model->create($valid->value);
-    return; //return last id
+    return; 
   }
 
   public function update($id,array $data){
