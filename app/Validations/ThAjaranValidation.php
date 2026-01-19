@@ -3,6 +3,7 @@ namespace App\Validations;
 
 class ThAjaranValidation{
 
+  // 0 Genap, 1 Ganjil
   public static $thAjaranRule = [
     'thajaran' => 'required',
     'semester' => 'required|in_list[0,1]'
@@ -14,6 +15,7 @@ class ThAjaranValidation{
     ],
     'semester' => [
       'required' => 'Semester harus diisi',
+      'in_list'=> 'Semester harus Ganjil(1) Genap(0)'
     ]
   ];
 
