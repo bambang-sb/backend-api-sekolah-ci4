@@ -2,7 +2,6 @@
 namespace app\Schemas;
 
 use App\Libraries\MyException;
-use App\Libraries\MyErrorsSchemaException;
 use App\Libraries\ExceptionValidation;
 
 class ValidSchema{
@@ -17,13 +16,22 @@ class ValidSchema{
     $fieldMissing = array_diff($schema,$fieldSend);
 
     $fieldOver = array_diff($fieldSend,$schema);
-    $temp=[];
-    foreach($fieldOver as $over){
-      $temp[] = $over;
-    }
 
-    if(!empty($fieldMissing)) throw new MyErrorsSchemaException('Request body missing!',400,$schema);
-    if(!empty($fieldOver)) throw new ExceptionValidation(['message'=>'body field not allowed!','field'=>$temp]);
+    if(!empty($fieldMissing)){
+      $tm = [];
+      foreach($fieldMissing as $fm){
+        $tm[$fm] = ['field '.$fm.' cannot missing!'];
+      }
+      throw new ExceptionValidation($tm,'Request body missing!');
+    };
+
+    if(!empty($fieldOver)){
+      $temp=[];
+      foreach($fieldOver as $over){
+        $temp[$over] = ["field not allowed!"];
+      }
+      throw new ExceptionValidation($temp);
+    };
 
 
     $this->value = $bd;
