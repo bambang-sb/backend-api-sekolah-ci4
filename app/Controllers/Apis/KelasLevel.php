@@ -1,6 +1,8 @@
 <?php
 namespace App\Controllers\Apis;
 
+use App\Schemas\ValidSchema;
+use App\Schemas\AppsSchema;
 use App\Services\KelasLevelService;
 
 class KelasLevel extends ResponseHandle{
@@ -22,24 +24,25 @@ class KelasLevel extends ResponseHandle{
   }
 
   public function create(){
-    $body = $this->request->getJSON(true);//true=>ubah ke array
-    if($body == null){
-      return $this->bodyError();  
-    }
-    $this->service->create($body);
+    $body = $this->request->getBody();
+    if($body == null)return $this->bodyError();
+
+    //cek schema body
+    $validSchema =new ValidSchema($body,AppsSchema::$fieldKelasLevel);
+
+    $this->service->create($validSchema->value);
     return $this->created('create success');
   }
 
   public function update($id=null){
-    // if($id==null){
-    //   return $this->errorResponse('ID Kelas Level harus diisi',null,400);
-    // }
+    
+    $body = $this->request->getBody();
+    if($body == null)return $this->bodyError();
 
-    $body = $this->request->getJSON(true);//true=>ubah ke array
-    if($body == null){
-      return $this->bodyError();  
-    }
-    $this->service->update($id,$body);
+    //cek schema body
+    $validSchema =new ValidSchema($body,AppsSchema::$fieldKelasLevel);
+
+    $this->service->update($id,$validSchema->value);
     
     return $this->updated('update success');
   }

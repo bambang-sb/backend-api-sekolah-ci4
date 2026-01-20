@@ -1,6 +1,8 @@
 <?php
 namespace App\Controllers\Apis;
 
+use App\Schemas\ValidSchema;
+use App\Schemas\AppsSchema;
 use App\Services\GuruService;
 
 class Guru extends ResponseHandle{
@@ -17,11 +19,13 @@ class Guru extends ResponseHandle{
   }
 
   public function biodataSave(){
-    $body = $this->request->getJSON(true);//true=>ubah ke array
-    if($body == null){
-      return $this->bodyError();  
-    }
-    $this->service->createBiodata($body);
+    $body = $this->request->getBody();
+    if($body == null)return $this->bodyError();
+
+    //cek schema body
+    $validSchema =new ValidSchema($body,AppsSchema::$fieldGuru);
+
+    $this->service->createBiodata($validSchema->value);
     return $this->created('create success');
   }
 

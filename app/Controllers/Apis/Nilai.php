@@ -1,6 +1,8 @@
 <?php
 namespace App\Controllers\Apis;
 
+use App\Schemas\ValidSchema;
+use App\Schemas\AppsSchema;
 use App\Services\NilaiService;
 
 class Nilai extends ResponseHandle{
@@ -22,23 +24,25 @@ class Nilai extends ResponseHandle{
   }
 
   public function create(){
-    $body = $this->request->getJSON(true);//true=>ubah ke array
-    if($body == null){
-      return $this->bodyError();  
-    }
-    $this->service->create($body);
+    $body = $this->request->getBody();
+    if($body == null)return $this->bodyError();
+
+    //cek schema body
+    $validSchema =new ValidSchema($body,AppsSchema::$fieldNilai);
+
+    $this->service->create($validSchema->value);
     return $this->created('create success');
   }
 
   public function update($id=null){
-    // if($id==null){
-    //   return $this->errorResponse('ID Nilai harus diisi',null,400);
-    // }
-    $body = $this->request->getJSON(true);//true=>ubah ke array
-    if($body == null){
-      return $this->bodyError();  
-    }
-    $this->service->update($id,$body);
+    
+    $body = $this->request->getBody();
+    if($body == null)return $this->bodyError();
+
+    //cek schema body
+    $validSchema =new ValidSchema($body,AppsSchema::$fieldNilai);
+
+    $this->service->update($id,$validSchema->value);
     return $this->updated('update success');
   }
 

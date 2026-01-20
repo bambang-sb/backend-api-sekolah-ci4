@@ -1,6 +1,8 @@
 <?php
 namespace App\Controllers\Apis;
 
+use App\Schemas\ValidSchema;
+use App\Schemas\AppsSchema;
 use App\Services\SiswaService;
 
 class Siswa extends ResponseHandle{
@@ -16,11 +18,13 @@ class Siswa extends ResponseHandle{
     return $this->success('success',$data);
   }
   public function biodataSave(){
-    $body = $this->request->getJSON(true);//true=>ubah ke array
-    if($body == null){
-      return $this->bodyError();  
-    }
-    $data=$this->service->biodataSave($body);
+    $body = $this->request->getBody();
+    if($body == null)return $this->bodyError();
+
+    //cek schema body
+    $validSchema =new ValidSchema($body,AppsSchema::$fieldSiswa);
+
+    $data=$this->service->biodataSave($validSchema->value);
     return $this->created('success',);
   }
 

@@ -1,6 +1,8 @@
 <?php
 namespace App\Controllers\Apis;
 
+use App\Schemas\ValidSchema;
+use App\Schemas\AppsSchema;
 use App\Services\KelasService;
 
 class Kelas extends ResponseHandle{
@@ -22,21 +24,25 @@ class Kelas extends ResponseHandle{
   }
 
   public function create(){
-    $body = $this->request->getJSON(true);//true=>ubah ke array
-    if($body == null){
-      return $this->bodyError();  
-    }
-    $this->service->create($body);
-    return $this->created('create success');//last id
+    $body = $this->request->getBody();
+    if($body == null)return $this->bodyError();
+
+    //cek schema body
+    $validSchema =new ValidSchema($body,AppsSchema::$fieldKelas);
+
+    $this->service->create($validSchema->value);
+    return $this->created('create success');
   }
 
   public function update($id=null){
     
-    $body = $this->request->getJSON(true);//true=>ubah ke array
-    if($body == null){
-      return $this->bodyError();  
-    }
-    $this->service->update($id,$body);
+    $body = $this->request->getBody();
+    if($body == null)return $this->bodyError();
+
+    //cek schema body
+    $validSchema =new ValidSchema($body,AppsSchema::$fieldKelas);
+
+    $this->service->update($id,$validSchema->value);
     
     return $this->updated('update success');
   }

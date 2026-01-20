@@ -1,6 +1,8 @@
 <?php
 namespace App\Controllers\Apis;
 
+use App\Schemas\ValidSchema;
+use App\Schemas\AppsSchema;
 use App\Services\PenggunaService;
 
 class Pengguna extends ResponseHandle{
@@ -22,11 +24,13 @@ class Pengguna extends ResponseHandle{
   }
 
   public function create(){
-    $body = $this->request->getJSON(true);//true=>ubah ke array
-    if($body == null){
-      return $this->bodyError();  
-    }
-    $this->service->create($body);
+    $body = $this->request->getBody();
+    if($body == null)return $this->bodyError();
+
+    //cek schema body
+    $validSchema =new ValidSchema($body,AppsSchema::$fieldPengguna);
+
+    $this->service->create($validSchema->value);
     return $this->created('create success');
   }
 

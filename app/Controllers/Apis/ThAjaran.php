@@ -2,7 +2,7 @@
 namespace App\Controllers\Apis;
 
 use App\Schemas\ValidSchema;
-use App\Schemas\ThajaranSchema;
+use App\Schemas\AppsSchema;
 use App\Services\ThAjaranService;
 
 class ThAjaran extends ResponseHandle{
@@ -28,7 +28,7 @@ class ThAjaran extends ResponseHandle{
     if($body == null)return $this->bodyError();  
     
     //cek schema body
-    $validSchema =new ValidSchema($body,ThajaranSchema::$field);
+    $validSchema =new ValidSchema($body,AppsSchema::$fieldThajaran);
 
     $this->service->create($validSchema->value);
     
@@ -37,10 +37,13 @@ class ThAjaran extends ResponseHandle{
 
   public function update($id=null){
    
-    $body = $this->request->getJSON(true);//true=>ubah ke array
+    $body = $this->request->getBody();
     if($body == null) return $this->bodyError();
     
-    $this->service->update($id,$body);
+    //cek schema body
+    $validSchema =new ValidSchema($body,AppsSchema::$fieldThajaran);
+
+    $this->service->update($id,$validSchema->value);
     
     return $this->updated();
   }

@@ -2,7 +2,8 @@
 
 namespace App\Controllers\Apis;
 
-// use CodeIgniter\HTTP\ResponseInterface;
+use App\Schemas\ValidSchema;
+use App\Schemas\AppsSchema;
 use App\Services\UserService;
 
 class Users extends ResponseHandle{
@@ -22,9 +23,13 @@ class Users extends ResponseHandle{
 	// }
 
 	public function login(){
-		$body = $this->request->getJSON(true);//true=>ubah ke array
+		$body = $this->request->getBody();
+		if($body == null)return $this->bodyError();
 
-		$data = $this->service->login($body);
+		//cek schema body
+    $validSchema =new ValidSchema($body,AppsSchema::$fieldLogin);
+
+		$data = $this->service->login($validSchema->value);
 		
 		return $this->success('login success',['token'=>$data,'token_type'=>'Bearer']);
 	}
