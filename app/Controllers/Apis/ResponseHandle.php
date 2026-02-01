@@ -5,7 +5,6 @@ namespace App\Controllers\Apis;
 use CodeIgniter\HTTP\ResponseInterface;
 use CodeIgniter\RESTful\ResourceController;
 use App\Schemas\ValidSchema;
-use App\Schemas\AppsSchema;
 
 class ResponseHandle extends ResourceController{
 
@@ -18,7 +17,6 @@ class ResponseHandle extends ResourceController{
     ) {
         parent::initController($request, $response, $logger);
 
-        $this->appsSchema = new AppsSchema();
     }
 
   protected function successResponse(string $message, $data = null, int $code = 200){
@@ -69,7 +67,7 @@ class ResponseHandle extends ResourceController{
   // ==========================
   // Schema Body Validation
   // =========================
-  protected function validSchema($body, $fieldSchema):ValidSchema{
+  protected function validSchema($body, $fieldSchema){
       return new ValidSchema($body,$fieldSchema);
   }
 
