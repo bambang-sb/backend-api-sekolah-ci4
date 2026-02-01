@@ -38,7 +38,7 @@ class MataPelajaran extends ResponseHandle{
     if($body == null)return $this->bodyError();
 
     //cek schema body
-    $validSchema =$this->validSchema($body,$this->appSchema::$fieldMataPelajaran);
+    $validSchema =$this->validSchema($body,$this->appsSchema::$fieldMataPelajaran);
 
     $this->service->update($id,$validSchema->value);
     return $this->updated('update success');
