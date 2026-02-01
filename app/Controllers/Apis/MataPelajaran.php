@@ -26,8 +26,9 @@ class MataPelajaran extends ResponseHandle{
     if($body == null)return $this->bodyError();
 
     //cek schema body
-    $validSchema =$this->validSchema($body,$this->appsSchema::$fieldMataPelajaran);
-
+    $schemaRule = \App\Validations\MataPelajaranValidation::$mataPelajaranRule;
+    $validSchema =$this->validSchema($body,$schemaRule);
+    
     $this->service->create($validSchema->value);
     return $this->created('create success');
   }
@@ -38,7 +39,8 @@ class MataPelajaran extends ResponseHandle{
     if($body == null)return $this->bodyError();
 
     //cek schema body
-    $validSchema =$this->validSchema($body,$this->appsSchema::$fieldMataPelajaran);
+    $schemaRule = \App\Validations\MataPelajaranValidation::$mataPelajaranRule;
+    $validSchema =$this->validSchema($body,$schemaRule);
     
     $this->service->update($id,$validSchema->value);
     return $this->updated('update success');

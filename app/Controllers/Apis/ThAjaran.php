@@ -1,8 +1,6 @@
 <?php
 namespace App\Controllers\Apis;
 
-use App\Schemas\ValidSchema;
-use App\Schemas\AppsSchema;
 use App\Services\ThAjaranService;
 
 class ThAjaran extends ResponseHandle{
@@ -28,7 +26,8 @@ class ThAjaran extends ResponseHandle{
     if($body == null)return $this->bodyError();  
     
     //cek schema body
-    $validSchema =new ValidSchema($body,AppsSchema::$fieldThajaran);
+    $schemaRule = \App\Validations\ThAjaranValidation::$thAjaranRule;
+    $validSchema =new ValidSchema($body,$schemaRule);
 
     $this->service->create($validSchema->value);
     
@@ -41,7 +40,8 @@ class ThAjaran extends ResponseHandle{
     if($body == null) return $this->bodyError();
     
     //cek schema body
-    $validSchema =new ValidSchema($body,AppsSchema::$fieldThajaran);
+    $schemaRule = \App\Validations\ThAjaranValidation::$thAjaranRule;
+    $validSchema =new ValidSchema($body,$schemaRule);
 
     $this->service->update($id,$validSchema->value);
     

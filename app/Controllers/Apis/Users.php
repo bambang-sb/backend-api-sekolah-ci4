@@ -2,8 +2,6 @@
 
 namespace App\Controllers\Apis;
 
-use App\Schemas\ValidSchema;
-use App\Schemas\AppsSchema;
 use App\Services\UserService;
 
 class Users extends ResponseHandle{
@@ -27,7 +25,8 @@ class Users extends ResponseHandle{
 		if($body == null)return $this->bodyError();
 
 		//cek schema body
-    $validSchema =new ValidSchema($body,AppsSchema::$fieldLogin);
+		$schemaRule = \App\Validations\UserValidation::$loginRule;
+    $validSchema =$this->validSchema($body,$schemaRule);
 
 		$data = $this->service->login($validSchema->value);
 		

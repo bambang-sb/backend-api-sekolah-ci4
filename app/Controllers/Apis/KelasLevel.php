@@ -1,8 +1,6 @@
 <?php
 namespace App\Controllers\Apis;
 
-use App\Schemas\ValidSchema;
-use App\Schemas\AppsSchema;
 use App\Services\KelasLevelService;
 
 class KelasLevel extends ResponseHandle{
@@ -28,7 +26,8 @@ class KelasLevel extends ResponseHandle{
     if($body == null)return $this->bodyError();
 
     //cek schema body
-    $validSchema =new ValidSchema($body,AppsSchema::$fieldKelasLevel);
+    $schemaRule = \App\Validations\KelasValidation::$kelasLevelRule;
+    $validSchema =new ValidSchema($body,$schemaRule);
 
     $this->service->create($validSchema->value);
     return $this->created('create success');
@@ -40,7 +39,8 @@ class KelasLevel extends ResponseHandle{
     if($body == null)return $this->bodyError();
 
     //cek schema body
-    $validSchema =new ValidSchema($body,AppsSchema::$fieldKelasLevel);
+    $schemaRule = \App\Validations\KelasValidation::$kelasLevelRule;
+    $validSchema =new ValidSchema($body,$schemaRule);
 
     $this->service->update($id,$validSchema->value);
     

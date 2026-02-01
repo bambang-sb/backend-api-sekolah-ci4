@@ -1,8 +1,6 @@
 <?php
 namespace App\Controllers\Apis;
 
-use App\Schemas\ValidSchema;
-use App\Schemas\AppsSchema;
 use App\Services\PenggunaService;
 
 class Pengguna extends ResponseHandle{
@@ -28,7 +26,8 @@ class Pengguna extends ResponseHandle{
     if($body == null)return $this->bodyError();
 
     //cek schema body
-    $validSchema =new ValidSchema($body,AppsSchema::$fieldPengguna);
+    $schemaRule = \App\Validations\PenggunaValidation::$penggunaRule;
+    $validSchema =new ValidSchema($body,$schemaRule);
 
     $this->service->create($validSchema->value);
     return $this->created('create success');

@@ -1,8 +1,6 @@
 <?php
 namespace App\Controllers\Apis;
 
-use App\Schemas\ValidSchema;
-use App\Schemas\AppsSchema;
 use App\Services\JadwalService;
 
 class Jadwal extends ResponseHandle{
@@ -28,7 +26,8 @@ class Jadwal extends ResponseHandle{
     if($body == null)return $this->bodyError();
 
     //cek schema body
-    $validSchema =new ValidSchema($body,AppsSchema::$fieldJadwal);
+    $schemaRule = \App\Validations\JadwalValidation::$jadwalRule;
+    $validSchema =new ValidSchema($body,$schemaRule);
 
     $this->service->create($validSchema->value);
     return $this->created('create success');
@@ -42,7 +41,8 @@ class Jadwal extends ResponseHandle{
     if($body == null)return $this->bodyError();
 
     //cek schema body
-    $validSchema =new ValidSchema($body,AppsSchema::$fieldJadwal);
+    $schemaRule = \App\Validations\JadwalValidation::$jadwalRule;
+    $validSchema =new ValidSchema($body,$schemaRule);
 
     $this->service->update($id,$validSchema->value);
     return $this->updated('update success');
