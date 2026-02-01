@@ -11,11 +11,12 @@ class ValidSchema{
     $bd = json_decode($body,true);// to array
     if(json_last_error() !== JSON_ERROR_NONE) throw new MyException('Invalid JSON format !',400);
 
+    //ambil key
+    $fieldSchema = array_keys($schema);
     $fieldSend = array_keys($bd);
 
-    $fieldMissing = array_diff($schema,$fieldSend);
-
-    $fieldOver = array_diff($fieldSend,$schema);
+    $fieldMissing = array_diff($fieldSchema,$fieldSend);
+    $fieldOver = array_diff($fieldSend,$fieldSchema);
 
     if(!empty($fieldMissing)){
       $tm = [];
