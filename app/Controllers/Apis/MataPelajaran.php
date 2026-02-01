@@ -1,8 +1,6 @@
 <?php
 namespace App\Controllers\Apis;
 
-use App\Schemas\ValidSchema;
-use App\Schemas\AppsSchema;
 use App\Services\MataPelajaranService;
 
 class MataPelajaran extends ResponseHandle{
@@ -28,9 +26,9 @@ class MataPelajaran extends ResponseHandle{
     if($body == null)return $this->bodyError();
 
     //cek schema body
-    $validSchema =new ValidSchema($body,AppsSchema::$fieldMataPelajaran);
+    $validSchema =$this->validSchema($body,$this->appsSchema::$fieldMataPelajaran);
 
-    // $this->service->create($validSchema->value);
+    $this->service->create($validSchema);
     return $this->created('create success');
   }
 
@@ -40,7 +38,7 @@ class MataPelajaran extends ResponseHandle{
     if($body == null)return $this->bodyError();
 
     //cek schema body
-    $validSchema =new ValidSchema($body,AppsSchema::$fieldMataPelajaran);
+    $validSchema =$this->validSchema($body,$this->appSchema::$fieldMataPelajaran);
 
     $this->service->update($id,$validSchema->value);
     return $this->updated('update success');
