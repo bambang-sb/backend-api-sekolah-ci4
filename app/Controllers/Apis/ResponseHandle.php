@@ -4,10 +4,22 @@ namespace App\Controllers\Apis;
 
 use CodeIgniter\HTTP\ResponseInterface;
 use CodeIgniter\RESTful\ResourceController;
+use App\Schemas\ValidSchema;
+use App\Schemas\AppsSchema;
 
 class ResponseHandle extends ResourceController{
 
   protected $format = 'json';
+
+  public function initController(
+        \CodeIgniter\HTTP\RequestInterface $request,
+        ResponseInterface $response,
+        \Psr\Log\LoggerInterface $logger
+    ) {
+        parent::initController($request, $response, $logger);
+
+        $this->appsSchema = new AppsSchema();
+    }
 
   protected function successResponse(string $message, $data = null, int $code = 200){
     return $this->respond([
@@ -18,14 +30,14 @@ class ResponseHandle extends ResourceController{
     // exit;
   }
 
-  protected function errorResponse(string $message, $errors = null,int $code = 400){
-    return $this->respond([
-        'statusCode'    => $code,
-        'message' => $message,
-        'errors'  => $errors
-    ], $code);
-    // exit;
-  }
+  // protected function errorResponse(string $message, $errors = null,int $code = 400){
+  //   return $this->respond([
+  //       'statusCode'    => $code,
+  //       'message' => $message,
+  //       'errors'  => $errors
+  //   ], $code);
+  //   // exit;
+  // }
 
   protected function success(string $message = 'Success',$data=[]){
       return $this->successResponse($message, $data, 200);
@@ -47,7 +59,6 @@ class ResponseHandle extends ResourceController{
   // ==========================
   // Helper ERROR
   // ==========================
-
   protected function bodyError(string $message='Body Invalid !!!',$code=400){
     return $this->respond([
         'statusCode'    => $code,
@@ -55,19 +66,11 @@ class ResponseHandle extends ResourceController{
     ], $code);
   }
 
-  // protected function validationError($errors)
-  // {
-  //     return $this->errorResponse('Validasi gagal', $errors,422);
-  // }
-
-  // protected function notFound(string $message = 'request tidak valid')
-  // {
-  //     return $this->errorResponse($message,null, 404);
-  // }
-
-  // protected function unauthorized(string $message = 'Unauthorized')
-  // {
-  //     return $this->errorResponse($message,null, 401);
-  // }
+  // ==========================
+  // Schema Body Validation
+  // =========================
+  protected function validSchema($body, $fieldSchema):ValidSchema{
+      return new ValidSchema($body,$fieldSchema);
+  }
 
 }
