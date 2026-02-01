@@ -1,5 +1,5 @@
 <?php
-namespace app\Schemas;
+namespace app\Validations;
 
 use App\Libraries\MyException;
 use App\Libraries\ExceptionValidation;

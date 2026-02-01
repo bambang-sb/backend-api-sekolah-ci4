@@ -4,7 +4,7 @@ namespace App\Controllers\Apis;
 
 use CodeIgniter\HTTP\ResponseInterface;
 use CodeIgniter\RESTful\ResourceController;
-use App\Schemas\ValidSchema;
+use App\Validations\ValidSchema;
 
 class ResponseHandle extends ResourceController{
 
