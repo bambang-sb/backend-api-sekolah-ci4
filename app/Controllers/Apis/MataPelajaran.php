@@ -28,7 +28,7 @@ class MataPelajaran extends ResponseHandle{
     //cek schema body
     $validSchema =$this->validSchema($body,$this->appsSchema::$fieldMataPelajaran);
 
-    $this->service->create($validSchema);
+    $this->service->create($validSchema->value);
     return $this->created('create success');
   }
 
@@ -39,7 +39,7 @@ class MataPelajaran extends ResponseHandle{
 
     //cek schema body
     $validSchema =$this->validSchema($body,$this->appsSchema::$fieldMataPelajaran);
-
+    
     $this->service->update($id,$validSchema->value);
     return $this->updated('update success');
   }
