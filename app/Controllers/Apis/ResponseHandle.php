@@ -20,11 +20,14 @@ class ResponseHandle extends ResourceController{
     }
 
   protected function successResponse(string $message, $data = null, int $code = 200){
-    return $this->respond([
-        'statusCode'    => $code,
-        'message' => $message,
-        'data'    => $data
-    ], $code);
+    return $this->response
+        ->setStatusCode($code)
+        ->setHeader('Content-Type', 'application/json')
+        ->setJSON([
+          'statusCode'    => $code,
+          'message' => $message,
+          'data'    => $data
+       ]);
     // exit;
   }
 
@@ -58,10 +61,13 @@ class ResponseHandle extends ResourceController{
   // Helper ERROR
   // ==========================
   protected function bodyError(string $message='Body Invalid !!!',$code=400){
-    return $this->respond([
-        'statusCode'    => $code,
-        'message' => $message
-    ], $code);
+    return $this->response
+        ->setStatusCode($code)
+        ->setHeader('Content-Type', 'application/json')
+        ->setJSON([
+          'statusCode'    => $code,
+          'message' => $message
+        ]);
   }
 
   // ==========================

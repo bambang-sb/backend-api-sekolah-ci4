@@ -24,6 +24,7 @@ class ExceptionHandler extends BaseExceptionHandler implements ExceptionHandlerI
         
       service('response')
         ->setStatusCode($exception->getStatusCode())
+        ->setHeader('Content-Type','application/json')
         ->setJSON($exception->response())
         ->send();
 
