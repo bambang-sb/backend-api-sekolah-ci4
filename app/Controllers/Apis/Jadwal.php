@@ -27,7 +27,7 @@ class Jadwal extends ResponseHandle{
 
     //cek schema body
     $schemaRule = \App\Validations\JadwalValidation::$jadwalRule;
-    $validSchema =new ValidSchema($body,$schemaRule);
+    $validSchema = $this->validSchema($body,$schemaRule);
 
     $this->service->create($validSchema->value);
     return $this->created('create success');
@@ -42,7 +42,7 @@ class Jadwal extends ResponseHandle{
 
     //cek schema body
     $schemaRule = \App\Validations\JadwalValidation::$jadwalRule;
-    $validSchema =new ValidSchema($body,$schemaRule);
+    $validSchema = $this->validSchema($body,$schemaRule);
 
     $this->service->update($id,$validSchema->value);
     return $this->updated('update success');

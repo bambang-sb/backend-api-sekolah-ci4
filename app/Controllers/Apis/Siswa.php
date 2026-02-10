@@ -21,7 +21,7 @@ class Siswa extends ResponseHandle{
 
     //cek schema body
     $schemaRule = \App\Validations\SiswaValidation::$biodataRule;
-    $validSchema =new ValidSchema($body,$schemaRule);
+    $validSchema = $this->validSchema($body,$schemaRule);
 
     $data=$this->service->biodataSave($validSchema->value);
     return $this->created('success',);

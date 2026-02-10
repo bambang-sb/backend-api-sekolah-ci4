@@ -27,7 +27,7 @@ class Pengguna extends ResponseHandle{
 
     //cek schema body
     $schemaRule = \App\Validations\PenggunaValidation::$penggunaRule;
-    $validSchema =new ValidSchema($body,$schemaRule);
+    $validSchema = $this->validSchema($body,$schemaRule);
 
     $this->service->create($validSchema->value);
     return $this->created('create success');

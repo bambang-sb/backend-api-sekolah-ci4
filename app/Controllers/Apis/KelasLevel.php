@@ -27,7 +27,7 @@ class KelasLevel extends ResponseHandle{
 
     //cek schema body
     $schemaRule = \App\Validations\KelasValidation::$kelasLevelRule;
-    $validSchema =new ValidSchema($body,$schemaRule);
+    $validSchema = $this->validSchema($body,$schemaRule);
 
     $this->service->create($validSchema->value);
     return $this->created('create success');
@@ -40,7 +40,7 @@ class KelasLevel extends ResponseHandle{
 
     //cek schema body
     $schemaRule = \App\Validations\KelasValidation::$kelasLevelRule;
-    $validSchema =new ValidSchema($body,$schemaRule);
+    $validSchema = $this->validSchema($body,$schemaRule);
 
     $this->service->update($id,$validSchema->value);
     

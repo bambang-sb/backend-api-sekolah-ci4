@@ -27,7 +27,7 @@ class ThAjaran extends ResponseHandle{
     
     //cek schema body
     $schemaRule = \App\Validations\ThAjaranValidation::$thAjaranRule;
-    $validSchema =new ValidSchema($body,$schemaRule);
+    $validSchema = $this->validSchema($body,$schemaRule);
 
     $this->service->create($validSchema->value);
     
@@ -41,7 +41,7 @@ class ThAjaran extends ResponseHandle{
     
     //cek schema body
     $schemaRule = \App\Validations\ThAjaranValidation::$thAjaranRule;
-    $validSchema =new ValidSchema($body,$schemaRule);
+    $validSchema = $this->validSchema($body,$schemaRule);
 
     $this->service->update($id,$validSchema->value);
     
